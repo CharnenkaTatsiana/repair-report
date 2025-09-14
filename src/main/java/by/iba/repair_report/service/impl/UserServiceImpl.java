@@ -5,6 +5,7 @@ import by.iba.repair_report.dto.response.UserDto;
 import by.iba.repair_report.entity.ERole;
 import by.iba.repair_report.entity.Role;
 import by.iba.repair_report.entity.User;
+import by.iba.repair_report.exception.ResourceNotFoundException;
 import by.iba.repair_report.repository.*;
 import by.iba.repair_report.service.UserService;
 import jakarta.transaction.Transactional;

@@ -26,4 +26,8 @@ public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
 
     @Query("SELECT e FROM Enterprise e WHERE e.association.id = :associationId ORDER BY e.name")
     List<Enterprise> findAllByAssociationIdOrderByName(@Param("associationId") Long associationId);
+
+    // Добавьте этот метод для подсчета предприятий по associationId
+    @Query("SELECT COUNT(e) FROM Enterprise e WHERE e.association.id = :associationId")
+    long countByAssociationId(@Param("associationId") Long associationId);
 }
