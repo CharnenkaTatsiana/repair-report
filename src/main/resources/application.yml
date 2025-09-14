@@ -1,0 +1,13 @@
+app:
+  jwt:
+    secret: =======================ReportAppJWTSecretKey==========================
+    expirationMs: 86400000 # 24 hours
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your-google-client-id
+            client-secret: your-google-client-secret
