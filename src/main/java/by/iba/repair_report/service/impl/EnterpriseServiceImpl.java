@@ -114,7 +114,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         response.setName(enterprise.getName());
         response.setAssociationId(enterprise.getAssociation().getId());
         response.setAssociationName(enterprise.getAssociation().getName());
-        response.setBranchCount(branchRepository.countByEnterpriseId(enterprise.getId()));
+
+        // Приведение long к int - ИСПРАВЛЕННАЯ ЧАСТЬ
+        long branchCount = branchRepository.countByEnterpriseId(enterprise.getId());
+        response.setBranchCount((int) branchCount); // Явное приведение типа
+
         return response;
     }
 }

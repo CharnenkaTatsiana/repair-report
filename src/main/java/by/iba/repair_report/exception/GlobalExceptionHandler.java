@@ -1,5 +1,6 @@
 package by.iba.repair_report.exception;
 
+import by.iba.repair_report.dto.response.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 "Resource Not Found",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Validation Failed",
                 errors.toString(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Constraint Violation",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNAUTHORIZED.value(),
                 "Authentication Failed",
                 "Invalid username or password",
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 "User Not Found",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.FORBIDDEN.value(),
                 "Access Denied",
                 "You don't have permission to access this resource",
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Invalid Argument",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -118,7 +118,7 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal Server Error",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -130,8 +130,14 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Business Logic Error",
                 ex.getMessage(),
-                request.getDescription(false)
+                getCleanPath(request)
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // Вспомогательный метод для очистки пути
+    private String getCleanPath(WebRequest request) {
+        String path = request.getDescription(false);
+        return path.replace("uri=", "");
     }
 }
