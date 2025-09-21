@@ -35,20 +35,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable()) // Отключаем CSRF для API
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/debug/**").permitAll() // Разрешаем debug endpoints
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/association/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG")
-                        .requestMatchers("/api/enterprise/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG", "ENTERPRISE_ENG")
-                        .requestMatchers("/api/branches/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG", "ENTERPRISE_ENG", "BRANCH_ENG")
-                        .requestMatchers("/api/work-categories/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG")
-                        .requestMatchers("/api/plans/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG", "ENTERPRISE_ENG", "BRANCH_ENG", "USER")
-                        .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "ASSOCIATION_ENG", "ENTERPRISE_ENG", "BRANCH_ENG", "USER")
+                        .requestMatchers("/api/debug/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -61,11 +56,11 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:3000")); // Явно укажите фронтенд
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(List.of("x-auth-token"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // Важно: true
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

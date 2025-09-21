@@ -31,4 +31,14 @@ public class AuthController {
         authService.registerUser(signUpRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+    @GetMapping("/test")
+    public String testAuth() {
+        return "Public Content from Auth!";
+    }
+
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "Auth endpoint is working!";
+    }
+
 }

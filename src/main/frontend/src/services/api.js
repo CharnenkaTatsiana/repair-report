@@ -9,15 +9,11 @@ const api = axios.create({
 
 // Логируем все запросы
 api.interceptors.request.use((config) => {
-    console.log('API Request:', config.method?.toUpperCase(), config.url);
-    console.log('Request Data:', config.data);
-
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.log('Adding token to headers');
     }
-
+    config.credentials = 'include'; // ← Добавьте эту строку!
     return config;
 });
 
