@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface ReportItemRepository extends JpaRepository<ReportItem, Long> {
 
-    List<ReportItem> findByReportId(Long reportId);
-
     @Query("SELECT ri FROM ReportItem ri WHERE ri.report.id = :reportId AND ri.workCategory.id = :workCategoryId")
     Optional<ReportItem> findByReportIdAndWorkCategoryId(@Param("reportId") Long reportId, @Param("workCategoryId") Long workCategoryId);
 
@@ -29,8 +27,8 @@ public interface ReportItemRepository extends JpaRepository<ReportItem, Long> {
     @Query("SELECT ri FROM ReportItem ri WHERE ri.report.id = :reportId AND ri.workCategory.networkType = :networkType")
     List<ReportItem> findByReportIdAndNetworkType(@Param("reportId") Long reportId, @Param("networkType") String networkType);
 
-    @Query("SELECT ri FROM ReportItem ri WHERE ri.report.branch.id = :branchId AND YEAR(ri.report.period) = :year AND MONTH(ri.report.period) = :month")
-    List<ReportItem> findByBranchIdAndYearAndMonth(@Param("branchId") Long branchId, @Param("year") Integer year, @Param("month") Integer month);
+    // УДАЛИТЬ ЭТОТ МЕТОД ПОЛНОСТЬЮ!
+    // List<ReportItem> findByBranchIdAndYearAndMonth(Long branchId, Integer year, Integer month);
 
     void deleteByReportId(Long reportId);
 

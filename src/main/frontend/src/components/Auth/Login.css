@@ -1,0 +1,36 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.login-card {
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+}
+
+.login-card .ant-card-head-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        width: 90%;
+        margin: 0 20px;
+    }
+}
+
+.login-form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.login-form-button {
+    width: 100%;
+}

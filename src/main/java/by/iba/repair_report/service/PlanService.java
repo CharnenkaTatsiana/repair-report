@@ -5,7 +5,9 @@ import by.iba.repair_report.dto.request.UpdatePlanStatusRequest;
 import by.iba.repair_report.dto.response.PlanResponse;
 import by.iba.repair_report.dto.response.PlanSummaryResponse;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface PlanService {
     PlanResponse createPlan(PlanRequest request);
@@ -19,4 +21,6 @@ public interface PlanService {
     PlanResponse getPlanByBranchAndYear(Long branchId, Integer year);
     PlanSummaryResponse getPlanSummary(Long planId);
     boolean existsPlanForBranchAndYear(Long branchId, Integer year);
+    Map<Long, BigDecimal> getQuarterlyPlanForBranch(Long branchId, Integer year, int quarter);
+    BigDecimal getPlanTotalByQuarter(Long planId, int quarter);
 }

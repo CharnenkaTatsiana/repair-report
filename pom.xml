@@ -94,6 +94,10 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -122,7 +126,53 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.15.0</version>
+                <configuration>
+                    <!-- Рабочая директория для фронтенда -->
+                    <workingDirectory>src/main/frontend</workingDirectory>
+                    <!-- Указываем, что npm уже установлен в системе -->
+                    <installDirectory>${project.basedir}</installDirectory>
+                </configuration>
+                <executions>
+                    <!-- Установка Node.js и npm -->
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v20.10.0</nodeVersion>
+                            <npmVersion>10.2.4</npmVersion>
+                        </configuration>
+                    </execution>
+                    <!-- Установка npm-зависимостей -->
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <!-- Сборка фронтенда -->
+                    <execution>
+                        <id>npm build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
     </build>
 
 </project>
